@@ -1,11 +1,19 @@
 import React from 'react'
 
-const Message = ( {pseudo, message} ) => {
-    return (
-        <p className="user-message">
+const Message = ( {pseudo, message, isUser} ) => {
+    if(isUser(pseudo)){
+        return (
+            <p className="user-message">
             {message}
-        </p>
-    )
+            </p>
+        )
+    }else{
+        return (
+            <p className="not-user-message">
+            <strong>{pseudo}: </strong> {message}
+            </p>
+        )
+    }
 
 }
 
