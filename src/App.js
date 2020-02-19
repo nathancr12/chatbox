@@ -1,26 +1,45 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { Component } from 'react';
 import './App.css';
+import Message from './components/Message'
+import Formulaire from './components/Formulaire'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+  state = {
+    messages : {},
+    pseudo: this.props.match.params.pseudo
+  }
+
+  addMessage = message => {
+    const messages = {...this.state.messages}
+    messages[`message-${Date.now()}`] = message
+    this.setState({ messages : messages })
+  }
+  
+  render () {
+    const messages = Object.keys(this.state.messages).map( key => (
+      <Message
+        key={key}
+        pseudo={this.state.messages[key].pseudo}
+        message={this.state.messages[key].message}
+      />
+    ))
+
+
+    return (
+      <div className="box">
+        <div>
+          <div className="messages">
+            {messages}
+          </div>
+        </div>
+        <Formulaire 
+        pseudo={this.state.pseudo}
+        length={140}
+        addMessage={this.addMessage}/>
+      </div>
+    )
+  }
 }
+
 
 export default App;
